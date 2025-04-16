@@ -23,7 +23,15 @@ public class WeatherDataUseCaseImpl implements WeatherDataUseCase {
     public List<WeatherForecast> saveWeatherForecast(String city) {
         var weatherForecasts = weatherApiPort.fetchWeatherForecast(city);
         var forecastsToSave = weatherForecasts.stream()
-                .map(weatherForecast -> weatherDbPort.getForecastByCityAndDate(city, weatherForecast.getUpdatedDate()).orElse(weatherForecast))
+                .map(weatherForecast -> {
+                    var forecastFromDb = weatherDbPort.getForecastByCityAndDate(city, weatherForecast.getUpdatedDate());
+                    if(forecastFromDb.isEmpty()) {
+                        return weatherForecast;
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
                 .toList();
         return weatherDbPort.saveForecast(forecastsToSave);
     }

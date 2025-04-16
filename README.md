@@ -9,6 +9,7 @@
 This project uses a hexagonal architecture pattern and follows an API first approach. Following functionalities are available in the application via requests:
 
 - **GET** http request that returns a list of all weather forecast stored in the database in sorted order.
+- **GET** http request that returns today and tomorrow's weather forecast stored in the database by city.
 - **POST** http request that stores a new weather forecast data in the database.
 
 ##### How to build the project?
@@ -50,6 +51,30 @@ This project uses a hexagonal architecture pattern and follows an API first appr
    ```
 2. List weather forecast data in sorted order
     Use `GET http://localhost:8080/v1/weather-forecasts`
+    ```
+   [
+        {
+            "city": "Madrid",
+            "updatedDate": "2025-04-11",
+            "maxTemperatureCentigrade": 18.0,
+            "minTemperatureCentigrade": 10.9,
+            "totalPrecipitationMilliMeter": 1.31,
+            "averageHumidity": 66,
+            "condition": "Patchy rain nearby"
+        },
+        {
+            "city": "Madrid",
+            "updatedDate": "2025-04-12",
+            "maxTemperatureCentigrade": 19.6,
+            "minTemperatureCentigrade": 10.2,
+            "totalPrecipitationMilliMeter": 1.96,
+            "averageHumidity": 73,
+            "condition": "Patchy rain nearby"
+        }
+     ]
+   ```
+3. Fetch today and tomorrow's weather by city.
+   Use `GET http://localhost:8080/v1/weather-forecasts/{city}`
     ```
    [
         {

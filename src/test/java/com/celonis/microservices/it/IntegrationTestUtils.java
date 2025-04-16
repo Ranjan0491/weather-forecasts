@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -91,7 +92,7 @@ public class IntegrationTestUtils {
                 .withQueryParam("q", equalTo(city))
                 .withQueryParam("key", equalTo(apiKey))
                 .withQueryParam("days", equalTo("2"))
-                .willReturn(aResponse().withStatus(200)
+                .willReturn(aResponse().withStatus(HttpStatus.CREATED.value())
                         .withHeader("Content-Type", "application/json")
                         .withResponseBody(Body.fromJsonBytes(externalApiResponse.getBytes())))
         );

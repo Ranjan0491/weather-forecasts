@@ -1,4 +1,4 @@
-# Spring Boot with JPA app
+# Weather Forecast API
 
 ## Required tools
 1. [Java 17](https://adoptopenjdk.net/)

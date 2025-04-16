@@ -30,6 +30,7 @@ public class WeatherControllerIT extends IntegrationTestUtils {
             // given
             var city = "Madrid";
             var date = LocalDate.parse("2025-04-08");
+            var datePlusOne = date.plusDays(1);
             mockExternalApi(city);
 
             // when
@@ -38,19 +39,21 @@ public class WeatherControllerIT extends IntegrationTestUtils {
             // then
             assertNotNull(weatherDtoList);
             assertFalse(weatherDtoList.isEmpty());
-            var weatherEntity = weatherRepository.findByCityAndUpdatedDate(city, date);
-            var weatherDto = weatherDtoList.stream().filter(weatherForecastResponseDto -> weatherForecastResponseDto.getUpdatedDate().isEqual(date))
-                            .findFirst().get();
-            assertNotNull(weatherEntity);
-            assertAll(
-                    () -> assertEquals(weatherDto.getCity(), weatherEntity.getCity()),
-                    () -> assertEquals(weatherDto.getUpdatedDate(), weatherEntity.getUpdatedDate()),
-                    () -> assertEquals(weatherDto.getCondition(), weatherEntity.getCondition()),
-                    () -> assertEquals(weatherDto.getAverageHumidity(), weatherEntity.getAverageHumidity()),
-                    () -> assertEquals(weatherDto.getMinTemperatureCentigrade().doubleValue(), weatherEntity.getMinTemperatureCentigrade()),
-                    () -> assertEquals(weatherDto.getMaxTemperatureCentigrade().doubleValue(), weatherEntity.getMaxTemperatureCentigrade()),
-                    () -> assertEquals(weatherDto.getTotalPrecipitationMilliMeter().doubleValue(), weatherEntity.getTotalPrecipitationMilliMeter())
-            );
+            var weatherEntityList = List.of(weatherRepository.findByCityAndUpdatedDate(city, date).get(), weatherRepository.findByCityAndUpdatedDate(city, datePlusOne).get());
+            for(int index=0; index<weatherDtoList.size(); index++) {
+                var weatherDto = weatherDtoList.get(index);
+                var weatherEntity = weatherEntityList.get(index);
+                assertNotNull(weatherEntity);
+                assertAll(
+                        () -> assertEquals(weatherDto.getCity(), weatherEntity.getCity()),
+                        () -> assertEquals(weatherDto.getUpdatedDate(), weatherEntity.getUpdatedDate()),
+                        () -> assertEquals(weatherDto.getCondition(), weatherEntity.getCondition()),
+                        () -> assertEquals(weatherDto.getAverageHumidity(), weatherEntity.getAverageHumidity()),
+                        () -> assertEquals(weatherDto.getMinTemperatureCentigrade().doubleValue(), weatherEntity.getMinTemperatureCentigrade()),
+                        () -> assertEquals(weatherDto.getMaxTemperatureCentigrade().doubleValue(), weatherEntity.getMaxTemperatureCentigrade()),
+                        () -> assertEquals(weatherDto.getTotalPrecipitationMilliMeter().doubleValue(), weatherEntity.getTotalPrecipitationMilliMeter())
+                );
+            }
         }
     }
 
@@ -62,7 +65,7 @@ public class WeatherControllerIT extends IntegrationTestUtils {
                                 .queryParam("city", city)
                 )
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();

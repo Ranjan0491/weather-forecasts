@@ -1,0 +1,95 @@
+openapi: "3.0.0"
+info:
+  title: Weather Forecast API
+  description: Fetches and stores weather forecast data by city and list available data in sorted order
+  version: 0.0.1
+paths:
+  /v1/weather-forecasts:
+    post:
+      summary: Creates weather forecasts in DB
+      operationId: saveForecastByCity
+      tags:
+        - weather-forecasts
+      parameters:
+        - name: city
+          in: query
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: An array of weather forecast data for today and/or tomorrow
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeatherForecastResponseDto"
+    get:
+      summary: Fetches all weather forecast data in sorted order
+      operationId: getAllForecasts
+      tags:
+        - weather-forecasts
+      responses:
+        "200":
+          description: An array of all weather forecast data in sorted order
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeatherForecastResponseDto"
+  /v1/weather-forecasts/{city}:
+    get:
+      summary: Fetches weather forecast data for today and tomorrow for a given city
+      operationId: getForecastsByCity
+      tags:
+        - weather-forecasts
+      parameters:
+        - name: city
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: An array of weather forecast data for today and tomorrow
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeatherForecastResponseDto"
+components:
+  schemas:
+    WeatherForecastResponseDto:
+      type: object
+      properties:
+        city:
+          type: string
+        updatedDate:
+          type: string
+          format: date
+        maxTemperatureCentigrade:
+          type: number
+        minTemperatureCentigrade:
+          type: number
+        totalPrecipitationMilliMeter:
+          type: number
+        averageHumidity:
+          type: integer
+        condition:
+          type: string
+    ErrorResponseDto:
+      type: object
+      properties:
+        application:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+        invalidParams:
+          type: object
+          additionalProperties:
+            type: string

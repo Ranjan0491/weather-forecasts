@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:weather-db}?serverTimezone=UTC
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:pass}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+app:
+  weather-api:
+    api-key: ${EXTERNAL_WEATHER_API_KEY:c463ade59933423c9b8135923250804}
+    # Invalid API-KEY for testing
+    # api-key: ${EXTERNAL_WEATHER_API_KEY:c463ade59933423c9b8135923250807}
+    url: http://api.weatherapi.com/v1/forecast.json

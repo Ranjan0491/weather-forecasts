@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:weather-db
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:password}
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+app:
+  weather-api:
+    api-key: ${EXTERNAL_WEATHER_API_KEY:c463ade59933423c9b8135923250804}
+    # Invalid API-KEY for testing
+    # api-key: ${EXTERNAL_WEATHER_API_KEY:c463ade59933423c9b8135923250807}
+    url: http://api.weatherapi.com/v1/forecast.json

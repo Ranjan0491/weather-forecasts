@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+
+  ### app
+  app:
+    image: celonis/weather-api:latest
+    container_name: weather-api
+    networks:
+      - weather-api-app-net
+    profiles:
+      - app
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=weather-db
+      - DB_USER=root
+      - DB_PASSWORD=pass
+      - EXTERNAL_WEATHER_API_KEY=c463ade59933423c9b8135923250804
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    restart: on-failure
+
+  ### MySQL Container
+  mysql:
+    image: mysql/mysql-server:latest
+    container_name: mysqldb
+    networks:
+      - weather-api-app-net
+    volumes:
+      - ./docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+    environment:
+      - MYSQL_DATABASE=weather-db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=pass
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - "3306:3306"
+
+networks:
+  weather-api-app-net:

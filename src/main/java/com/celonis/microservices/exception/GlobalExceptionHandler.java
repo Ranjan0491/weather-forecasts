@@ -1,6 +1,8 @@
 package com.celonis.microservices.exception;
 
 import com.celonis.openapi.model.ErrorResponseDto;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Slf4j
@@ -43,6 +46,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(buildAndPrintErrorResponseDto(externalApiException.getCode(),
                         externalApiException.getMessage(), externalApiException.getInvalidParams()));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponseDto> handleException(ConstraintViolationException constraintViolationException) {
+        var constraintViolations = constraintViolationException.getConstraintViolations();
+        var invalidParams = constraintViolations.stream()
+                .collect(Collectors.toMap(
+                        constraintViolation -> constraintViolation.getPropertyPath().toString(),
+                        constraintViolation -> String.valueOf(constraintViolation.getInvalidValue())
+                ));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(buildAndPrintErrorResponseDto("CONSTRAINT_400",
+                        constraintViolationException.getMessage(), invalidParams));
     }
 
     @ExceptionHandler(Exception.class)

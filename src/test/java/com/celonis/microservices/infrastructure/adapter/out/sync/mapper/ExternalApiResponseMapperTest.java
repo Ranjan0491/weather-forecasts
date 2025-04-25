@@ -55,7 +55,7 @@ class ExternalApiResponseMapperTest {
         // then
         assertEquals(externalApiResponseDto.getLocation().getName(), domainList.get(0).getCity());
         var forecastDays =  externalApiResponseDto.getForecast().getForecastDay();
-        for(int index=0; index<forecastDays.size(); index++) {
+        for(var index=0; index<forecastDays.size(); index++) {
             var forecastDay = forecastDays.get(index);
             var weatherForecast = domainList.get(index);
             assertAll(

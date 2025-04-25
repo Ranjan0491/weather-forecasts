@@ -44,7 +44,7 @@ class DtoMapperTest {
         var dtoList = mapper.toDtoList(domainList);
 
         // then
-        for(int index=0; index<dtoList.size(); index++) {
+        for(var index=0; index<dtoList.size(); index++) {
             var weatherForecastDomain = domainList.get(index);
             var weatherForecastDto = dtoList.get(index);
             assertAll(

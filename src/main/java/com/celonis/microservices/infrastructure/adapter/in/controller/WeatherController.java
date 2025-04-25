@@ -29,7 +29,7 @@ public class WeatherController implements WeatherForecastsApi {
     }
 
     @Override
-    public ResponseEntity<List<WeatherForecastResponseDto>> getForecastsByCity(String city) {
+    public ResponseEntity<List<WeatherForecastResponseDto>> getForecastsByCity(@Validated String city) {
         return ResponseEntity.ok(mapper.toDtoList(weatherDataUseCase.getWeatherForeCastsByCity(city)));
     }
 }

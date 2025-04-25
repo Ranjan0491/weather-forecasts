@@ -45,7 +45,7 @@ class DbMapperTest {
         var domainList = mapper.toDomainList(entityList);
 
         // then
-        for(int index=0; index<domainList.size(); index++) {
+        for(var index=0; index<domainList.size(); index++) {
             var weatherEntity = entityList.get(index);
             var weatherForecast = domainList.get(index);
             assertAll(
@@ -88,7 +88,7 @@ class DbMapperTest {
         var entityList = mapper.toEntityList(domainList);
 
         // then
-        for(int index=0; index<entityList.size(); index++) {
+        for(var index=0; index<entityList.size(); index++) {
             var weatherForecastDomain = domainList.get(index);
             var weatherEntity = entityList.get(index);
             assertAll(

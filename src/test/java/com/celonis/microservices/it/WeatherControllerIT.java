@@ -40,7 +40,7 @@ public class WeatherControllerIT extends IntegrationTestUtils {
             assertNotNull(weatherDtoList);
             assertFalse(weatherDtoList.isEmpty());
             var weatherEntityList = List.of(weatherRepository.findByCityAndUpdatedDate(city, date).get(), weatherRepository.findByCityAndUpdatedDate(city, datePlusOne).get());
-            for(int index=0; index<weatherDtoList.size(); index++) {
+            for(var index=0; index<weatherDtoList.size(); index++) {
                 var weatherDto = weatherDtoList.get(index);
                 var weatherEntity = weatherEntityList.get(index);
                 assertNotNull(weatherEntity);

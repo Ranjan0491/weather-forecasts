@@ -27,9 +27,8 @@ public class WeatherDataUseCaseImpl implements WeatherDataUseCase {
                     var forecastFromDb = weatherDbPort.getForecastByCityAndDate(city, weatherForecast.getUpdatedDate());
                     if(forecastFromDb.isEmpty()) {
                         return weatherForecast;
-                    } else {
-                        return null;
                     }
+                    return null;
                 })
                 .filter(Objects::nonNull)
                 .toList();

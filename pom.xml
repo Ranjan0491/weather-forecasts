@@ -11,7 +11,8 @@
 	<groupId>com.celonis.microservices</groupId>
 	<artifactId>weather-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>weather-api</name>
+	<packaging>pom</packaging>
+	<name>Weather API</name>
 	<description>This project exposes the APIs for weather forecast</description>
 	<url/>
 	<licenses>
@@ -20,6 +21,17 @@
 	<developers>
 		<developer/>
 	</developers>
+	<modules>
+		<module>domain</module>
+		<module>application</module>
+		<module>infrastructure</module>
+		<!--<module>infrastructure/adapter-in</module>
+		<module>infrastructure/adapter-in/controller</module>
+		<module>infrastructure/adapter-out</module>
+		<module>infrastructure/adapter-out/database</module>
+		<module>infrastructure/adapter-out/synchronous</module>-->
+		<module>main</module>
+	</modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -117,6 +129,31 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>com.celonis.microservices</groupId>
+				<artifactId>application</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.celonis.microservices</groupId>
+				<artifactId>domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.celonis.microservices</groupId>
+				<artifactId>controller</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.celonis.microservices</groupId>
+				<artifactId>database</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.celonis.microservices</groupId>
+				<artifactId>synchronous</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers-bom</artifactId>
 				<version>${test.containers.bom.version}</version>
@@ -153,43 +190,11 @@
 					</compilerArgs>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>${openapi.generator.maven.plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>
-								${project.basedir}/src/main/resources/spec/weather-forecast.yml
-							</inputSpec>
-							<generatorName>spring</generatorName>
-							<apiPackage>com.celonis.openapi.api</apiPackage>
-							<modelPackage>com.celonis.openapi.model</modelPackage>
-							<supportingFilesToGenerate>
-								ApiUtil.java
-							</supportingFilesToGenerate>
-							<configOptions>
-								<delegatePattern>true</delegatePattern>
-								<useSpringBoot3>true</useSpringBoot3>
-								<useJakartaEe>true</useJakartaEe>
-								<openApiNullable>false</openApiNullable>
-								<interfaceOnly>true</interfaceOnly>
-								<useTags>true</useTags>
-								<additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>${project.artifactId}</finalName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -197,37 +202,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>${docker.maven.plugin.version}</version>
-				<configuration>
-					<verbose>true</verbose>
-					<images>
-						<image>
-							<name>${docker.image.name}</name>
-							<build>
-								<dockerFileDir>${project.basedir}</dockerFileDir>
-								<assembly>
-									<descriptorRef>artifact</descriptorRef>
-								</assembly>
-								<tags>
-									<tag>${project.version}</tag>
-								</tags>
-							</build>
-						</image>
-					</images>
-				</configuration>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase>install</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

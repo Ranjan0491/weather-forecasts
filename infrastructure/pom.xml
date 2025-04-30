@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.celonis.microservices</groupId>
+        <artifactId>weather-api</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>infrastructure</artifactId>
+    <packaging>pom</packaging>
+    <name>Weather API - Infrastructure</name>
+
+    <modules>
+        <module>adapter-in</module>
+        <module>adapter-out</module>
+    </modules>
+
+</project>

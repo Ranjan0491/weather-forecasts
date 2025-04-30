@@ -1,0 +1,85 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.celonis.microservices</groupId>
+        <artifactId>adapter-in</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>controller</artifactId>
+    <packaging>jar</packaging>
+    <name>Weather API - Infrastructure - Adapter In - Controller</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.celonis.microservices</groupId>
+            <artifactId>application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.celonis.microservices</groupId>
+            <artifactId>domain</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi.generator.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/spec/weather-forecast.yml
+                            </inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>com.celonis.openapi.api</apiPackage>
+                            <modelPackage>com.celonis.openapi.model</modelPackage>
+                            <supportingFilesToGenerate>
+                                ApiUtil.java
+                            </supportingFilesToGenerate>
+                            <configOptions>
+                                <delegatePattern>true</delegatePattern>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useJakartaEe>true</useJakartaEe>
+                                <openApiNullable>false</openApiNullable>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useTags>true</useTags>
+                                <additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

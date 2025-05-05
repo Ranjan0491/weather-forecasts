@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("DB Mapper tests")
 class DbMapperTest {
 
-    @InjectMocks
-    private DbMapper mapper = new DbMapperImpl();
+    private final DbMapper mapper = new DbMapperImpl();
 
     @Test
     void toDomainList() {

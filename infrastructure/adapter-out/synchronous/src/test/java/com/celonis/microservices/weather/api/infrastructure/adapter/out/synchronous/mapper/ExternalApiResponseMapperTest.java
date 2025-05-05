@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("External API Mapper tests")
 class ExternalApiResponseMapperTest {
 
-    @InjectMocks
-    private ExternalApiResponseMapper mapper = new ExternalApiResponseMapperImpl();
+    private final ExternalApiResponseMapper mapper = new ExternalApiResponseMapperImpl();
 
     @Test
     void toDomainList() {

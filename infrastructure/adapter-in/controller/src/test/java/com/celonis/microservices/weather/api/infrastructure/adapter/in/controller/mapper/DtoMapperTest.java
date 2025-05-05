@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("DTO Mapper tests")
 class DtoMapperTest {
 
-    @InjectMocks
-    private DtoMapper mapper = new DtoMapperImpl();
+    private final DtoMapper mapper = new DtoMapperImpl();
 
     @Test
     void toDtoList() {

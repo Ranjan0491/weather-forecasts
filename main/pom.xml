@@ -89,14 +89,11 @@
                         <image>
                             <name>${docker.image.name}</name>
                             <build>
-                                <dockerFileDir>${project.basedir}/..</dockerFileDir>
-                                <assembly>
-                                    <!-- <descriptorRef>artifact</descriptorRef> -->
-                                    <descriptor>${project.basedir}/src/main/assembly/docker.xml</descriptor>
-                                </assembly>
+                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
                                 <tags>
                                     <tag>${project.version}</tag>
                                 </tags>
+                                <cleanup>true</cleanup>
                             </build>
                         </image>
                     </images>

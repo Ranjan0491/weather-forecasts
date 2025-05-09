@@ -1,7 +1,7 @@
 FROM openjdk:17.0
 
 ARG APP_NAME=weather-api-main
-ARG TARGET_JAR_FILE=main/target/${APP_NAME}.jar
+ARG TARGET_JAR_FILE=target/${APP_NAME}.jar
 
 WORKDIR /opt/${APP_NAME}
 
